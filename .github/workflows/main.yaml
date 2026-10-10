@@ -1,1 +1,28 @@
+name: Publicar pagina con Surge
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar Surge
+        run: npm install --global surge
+
+      - name: Publicar pagina
+        run: surge ./ mi-pagina-demo.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
